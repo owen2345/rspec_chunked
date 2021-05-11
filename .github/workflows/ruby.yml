@@ -1,0 +1,30 @@
+name: Ruby Gem
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  build:
+    name: Tests and Code Style
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.4
+      - name: Install bundler
+        env:
+          GEMFILE_PATH: gemfiles/Gemfile_${{ matrix.rails }}
+          RAILS_V: ${{ matrix.rails }}
+        run: gem install bundler bundle install --jobs 4 --retry 3
+
+      - name: Tests (rspec)
+        run: |
+          bundle exec rspec
+
+      - name: Code style (Rubocop)
+        run: bundle exec rubocop
