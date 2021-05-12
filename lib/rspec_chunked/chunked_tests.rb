@@ -35,7 +35,7 @@ module RspecChunked
 
     def test_files
       Dir['spec/**/*_spec.rb'].sort_by do |path|
-        File.size(File.join(__dir__, '../', path)).to_f
+        File.size(File.join('./', path)).to_f
       end
     end
 
