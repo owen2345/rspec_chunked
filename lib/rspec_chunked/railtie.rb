@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'rails'
 module RspecChunked
   class Railtie < ::Rails::Railtie
     rake_tasks do
