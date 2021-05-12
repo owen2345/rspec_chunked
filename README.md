@@ -16,9 +16,11 @@ If ordering is not enough, permits to balance manually by moving x percentage of
 - Add manual balance
 ```ruby
   # config/initializers/rspec_chunked.rb
-  return unless defined?(RspecChunked::ChunkedTests)
-
-  RspecChunked::ChunkedTests.balance_settings =  { 1 => { to: 2, percentage: 15 }, 4 => { to: 3, percentage: 10 } }
+  if defined?(RspecChunked::ChunkedTests)
+    data = { 1 => { to: 2, percentage: 15 },
+             4 => { to: 3, percentage: 10 } }
+    RspecChunked::ChunkedTests.balance_settings = data
+  end
 ```
 Balance tests by moving 15% tests files from group 1 into group 2 and moving 10% tests files from group 4 into group 3
 
