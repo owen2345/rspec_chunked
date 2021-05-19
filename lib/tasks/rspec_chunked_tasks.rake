@@ -6,10 +6,10 @@ task rspec_chunked: :environment do
   job_number = (ENV['CI_JOB'] || 1).to_i
   service = RspecChunked::ChunkedTests.new(qty_jobs, job_number, cmd: ENV['CI_CMD'])
   service.run
-  copy_coverage
+  copy_coverage(job_number)
 end
 
-def copy_coverage
+def copy_coverage(job_number)
   path = 'coverage/.resultset.json'
   FileUtils.cp path, "coverage/.resultset-#{job_number}.json" if File.exist?(path)
 end
