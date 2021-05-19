@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rspec_chunked (0.4.2)
+    rspec_chunked (0.4.3)
 
 GEM
   remote: https://rubygems.org/
