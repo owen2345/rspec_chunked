@@ -7,20 +7,21 @@ RSpec.describe RspecChunked::ChunkedTests do
   let(:inst) { described_class.new(qty_jobs, job_number) }
   let(:ordered_files) { %w[File1 File2 File3] }
   before do
+    allow(Kernel).to receive(:abort)
     allow(File).to receive(:size).and_return(0)
     allow(Kernel).to receive(:puts).and_call_original
-    allow(Kernel).to receive(:exec)
+    allow(Kernel).to receive(:system).and_return(true)
     allow_any_instance_of(described_class).to receive(:test_files).and_return(ordered_files)
   end
 
   describe 'when running tests' do
     it 'runs only tests corresponding to the current group/worker' do
-      expect(Kernel).to receive(:exec).with(include('File1'))
+      expect(Kernel).to receive(:system).with(include('File1'))
       inst.run
     end
 
     it 'does not run tests not corresponding the current worker' do
-      expect(Kernel).not_to receive(:exec).with(include(ordered_files[job_number]))
+      expect(Kernel).not_to receive(:system).with(include(ordered_files[job_number]))
       inst.run
     end
 

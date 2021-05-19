@@ -19,7 +19,7 @@ module RspecChunked
       tests = balanced_tests[job_number]
       qty = balanced_tests.flatten.count
       Kernel.puts "**** running #{tests.count}/#{qty} tests (group number: #{job_number + 1})"
-      Kernel.exec "#{cmd} #{tests.join(' ')}"
+      Kernel.abort('failed running command') unless Kernel.system "#{cmd} #{tests.join(' ')}"
     end
 
     private
