@@ -11,7 +11,7 @@ module RspecChunked
       @qty_groups = qty_groups
       @job_number = job_number - 1
       @balance_settings = self.class.balance_settings || {}
-      @cmd = cmd.empty? ? 'bundle exec rspec' : cmd
+      @cmd = cmd || 'bundle exec rspec'
     end
 
     def run
