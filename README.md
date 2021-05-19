@@ -25,9 +25,18 @@ If ordering is not enough, permits to balance manually by moving x percentage of
 Balance tests by moving 15% tests files from group 1 into group 2 and moving 10% tests files from group 4 into group 3
 
 ## Usage
-` CI_JOBS=3 CI_JOB=1 rake rspec_chunked `
+- Basic initialization
+  ` CI_JOBS=3 CI_JOB=1 rake rspec_chunked`
+- Custom initialization
+  ` CI_JOBS=3 CI_JOB=1 CI_CMD="bundle exec rspec ..." rake rspec_chunked`
 - `CI_JOBS`: quantity of groups/workers to be split
 - `CI_JOB`: current group/worker to be executed, limit: 1 until CI_JOBS
+- `CI_CMD`: Custom rspec command
+
+### Coverage merge reports (when using [simplecov](https://github.com/simplecov-ruby/simplecov#merging-test-runs-under-different-execution-environments))
+This task will merge all coverage reports
+`rake rspec_chunked:merge_reports`
+
 
 ### Github workflow result
 - Before:    

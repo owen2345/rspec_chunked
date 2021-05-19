@@ -5,12 +5,13 @@ module RspecChunked
     class << self
       attr_accessor :balance_settings
     end
-    attr_accessor :qty_groups, :job_number, :balance_settings
+    attr_accessor :qty_groups, :job_number, :balance_settings, :cmd
 
-    def initialize(qty_groups, job_number)
+    def initialize(qty_groups, job_number, cmd: '')
       @qty_groups = qty_groups
       @job_number = job_number - 1
       @balance_settings = self.class.balance_settings || {}
+      @cmd = cmd.empty? ? 'bundle exec rspec' : cmd
     end
 
     def run
@@ -18,7 +19,7 @@ module RspecChunked
       tests = balanced_tests[job_number]
       qty = balanced_tests.flatten.count
       Kernel.puts "**** running #{tests.count}/#{qty} tests (group number: #{job_number + 1})"
-      Kernel.exec "bundle exec rspec #{tests.join(' ')}"
+      Kernel.exec "#{cmd} #{tests.join(' ')}"
     end
 
     private
