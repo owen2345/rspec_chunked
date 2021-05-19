@@ -7,7 +7,7 @@ module RspecChunked
     end
     attr_accessor :qty_groups, :job_number, :balance_settings, :cmd
 
-    def initialize(qty_groups, job_number, cmd: '')
+    def initialize(qty_groups, job_number, cmd: nil)
       @qty_groups = qty_groups
       @job_number = job_number - 1
       @balance_settings = self.class.balance_settings || {}
