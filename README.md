@@ -15,7 +15,7 @@ If ordering is not enough, permits to balance manually by moving x percentage of
 
 - Add manual balance
 ```ruby
-  # config/initializers/rspec_chunked.rb
+  # config/rspec_chunked.rb
   if defined?(RspecChunked::ChunkedTests)
     data = { 1 => { to: 2, percentage: 15 },
              4 => { to: 3, percentage: 10 } }

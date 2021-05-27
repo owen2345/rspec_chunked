@@ -1,12 +1,18 @@
 # frozen_string_literal: true
 
 desc 'Run chunked rspec tests on specific qty, sample: CI_JOBS=3 CI_JOB=1 rake rspec_chunked'
-task rspec_chunked: :environment do
+task :rspec_chunked do
   qty_jobs = (ENV['CI_JOBS'] || 3).to_i
   job_number = (ENV['CI_JOB'] || 1).to_i
+  load_config
   service = RspecChunked::ChunkedTests.new(qty_jobs, job_number, cmd: ENV['CI_CMD'])
   service.run
   copy_coverage(job_number)
+end
+
+def load_config
+  config_file = File.join(Dir.pwd, 'config', 'rspec_chunked.rb')
+  load config_file if File.exist?(config_file)
 end
 
 def copy_coverage(job_number)
