@@ -13,16 +13,16 @@ If ordering is not enough, permits to balance manually by moving x percentage of
 - And then execute:
 `bundle install`
 
-- Add manual balance
-```ruby
-  # config/rspec_chunked.rb
-  if defined?(RspecChunked::ChunkedTests)
-    data = { 1 => { to: 2, percentage: 15 },
-             4 => { to: 3, percentage: 10 } }
-    RspecChunked::ChunkedTests.balance_settings = data
-  end
-```
-Balance tests by moving 15% tests files from group 1 into group 2 and moving 10% tests files from group 4 into group 3
+- Add manual balance (optional)
+  ```ruby
+    # config/rspec_chunked.rb
+    if defined?(RspecChunked::ChunkedTests)
+      data = { 1 => { to: 2, percentage: 15 },
+               4 => { to: 3, percentage: 10 } }
+      RspecChunked::ChunkedTests.balance_settings = data
+    end
+  ```
+  Balance tests by moving 15% tests files from group 1 into group 2 and moving 10% tests files from group 4 into group 3
 
 ## Usage
 - Basic initialization
@@ -54,14 +54,12 @@ This task will merge all coverage reports
       matrix:
         ci_job: [ 1, 2, 3, 4 ] # enumerize jobs
     env:
-      CI_JOBS: 4 # define total jobs (must match with matrix above)
+      CI_JOBS: ${{ matrix.ci_job }}/4 # <current_job>/<total_jobs>
   
     steps:
       - uses: actions/checkout@v2
       - name: Backend tests
-        env:
-          CI_JOB: ${{ matrix.ci_job }}
-        run: docker-compose run test /bin/sh -c "CI_JOBS=$CI_JOBS CI_JOB=$CI_JOB rake rspec_chunked"
+        run: docker-compose run test /bin/sh -c "CI_JOBS=$CI_JOBS rake rspec_chunked"
 
   ````  
 
