@@ -47,12 +47,12 @@ RSpec.describe RspecChunked::ChunkedTests do
     end
 
     it 'moves the files to the target group' do
-      expect(Kernel).to receive(:puts).with(include("running 6/#{qty_files} tests"))
+      expect(Kernel).to receive(:puts).with(include("running 6/#{qty_files} test files"))
       described_class.new(qty_jobs, 1).run
     end
 
     it 'moves the files from the source group' do
-      expect(Kernel).to receive(:puts).with(include("running 2/#{qty_files} tests"))
+      expect(Kernel).to receive(:puts).with(include("running 2/#{qty_files} test files"))
       described_class.new(qty_jobs, 2).run
     end
   end
