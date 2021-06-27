@@ -28,9 +28,10 @@ If ordering is not enough, permits to balance manually by moving x percentage of
 - Basic initialization
   ` CI_JOBS=1/3 rake rspec_chunked`
 - Custom initialization
-  ` CI_JOBS=1/3 CI_CMD="bundle exec rspec ..." rake rspec_chunked`
+  ` CI_LOGIC=qty_specs CI_JOBS=1/3 CI_CMD="bundle exec rspec ..." rake rspec_chunked`
 - `CI_JOBS`: Current job number / quantity of groups/jobs to be split
 - `CI_CMD`: Custom rspec command
+- `CI_LOGIC`: Kind of logic to be used when ordering tests: `qty_specs` or `file_size` (by default `file_size`)
 
 ### Coverage merge reports (when using [simplecov](https://github.com/simplecov-ruby/simplecov#merging-test-runs-under-different-execution-environments))
 This task will merge all coverage reports

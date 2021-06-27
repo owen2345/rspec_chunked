@@ -31,10 +31,32 @@ RSpec.describe RspecChunked::ChunkedTests do
   end
 
   describe 'when sorting' do
-    it 'sorts files by file size' do
-      allow(inst).to receive(:test_files).and_call_original
+    before { allow(inst).to receive(:test_files).and_call_original }
+    it 'sorts files by file size by default' do
       expect(File).to receive(:size).at_least(1)
       inst.run
+    end
+
+    describe 'when ordering by qty of specs' do
+      let(:inst) { described_class.new(qty_jobs, job_number, order_logic: :qty_specs) }
+
+      it 'sorts files by specs' do
+        expect(inst).to receive(:count_specs_for).at_least(1)
+        inst.run
+      end
+
+      it 'counts specs correctly' do
+        path = 'sample_spec.rb'
+        specs = <<-STRING
+          describe 'when 1' do
+            it 'spec 1' {  }
+            it 'spec 2' do; end
+          end
+          it 'spec 3' {}
+        STRING
+        allow(File).to receive(:read).with(/#{path}/).and_return(specs)
+        expect(inst.send(:count_specs_for, path)).to eq(3)
+      end
     end
   end
 

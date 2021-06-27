@@ -5,11 +5,13 @@ module RspecChunked
     class << self
       attr_accessor :balance_settings
     end
-    attr_accessor :qty_groups, :job_number, :balance_settings, :cmd
+    attr_accessor :qty_groups, :job_number, :balance_settings, :cmd, :order_logic
 
-    def initialize(qty_groups, job_number, cmd: nil)
+    # @param order_logic (:qty_specs|:file_size*)
+    def initialize(qty_groups, job_number, cmd: nil, order_logic: :file_size)
       @qty_groups = qty_groups
       @job_number = job_number - 1
+      @order_logic = order_logic
       @balance_settings = self.class.balance_settings || {}
       @cmd = cmd || 'bundle exec rspec'
     end
@@ -36,8 +38,17 @@ module RspecChunked
 
     def test_files
       Dir['spec/**/*_spec.rb'].sort_by do |path|
-        File.size(File.join('./', path)).to_f
+        if order_logic == :qty_specs
+          count_specs_for(path)
+        else
+          File.size(File.join('./', path)).to_f
+        end
       end
+    end
+
+    def count_specs_for(path)
+      body = File.read(File.join('./', path))
+      body.scan(/ it ['|"]/).count
     end
 
     # Balance tests by moving x percentage tests files from group 1 into group 2

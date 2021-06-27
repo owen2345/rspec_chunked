@@ -3,8 +3,10 @@
 desc 'Run chunked rspec tests on specific qty, sample: CI_JOBS=3 CI_JOB=1 rake rspec_chunked'
 task :rspec_chunked do
   job_number, qty_jobs = (ENV['CI_JOBS'] || '1/3').split('/')
+  logic = (ENV['CI_LOGIC'] || :file_size).to_sym
   load_config
-  service = RspecChunked::ChunkedTests.new(qty_jobs.to_i, job_number.to_i, cmd: ENV['CI_CMD'])
+  service = RspecChunked::ChunkedTests.new(qty_jobs.to_i, job_number.to_i,
+                                           cmd: ENV['CI_CMD'], order_logic: logic)
   service.run
   copy_coverage(job_number)
 end
