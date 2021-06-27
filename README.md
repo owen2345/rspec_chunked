@@ -1,6 +1,5 @@
 # RspecChunked
-This gem permits to run rspec tests in parallel by chunking tests into defined groups and balancing by file size.
-If ordering is not enough, permits to balance manually by moving x percentage of tests files from group A into group B.
+This gem permits running rspec tests in parallel by chunking tests into defined groups and balancing by file size. If the default order is not enough, it permits to balance manually by moving x percentage of test files from group A into group B.
 
 ## Installation
 - Add this line to your application's Gemfile:
